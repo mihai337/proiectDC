@@ -1,6 +1,6 @@
 class FileLogger:
-    def __init__(self): #constructor, pentru necunoscatori
-        self.file = open('log.txt', 'w')
+    def __init__(self,file_name : str): #constructor, pentru necunoscatori
+        self.file = open(file_name, 'w')
 
     def write(self, *args):
         for x in args:

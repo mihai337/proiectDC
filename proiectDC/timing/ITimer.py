@@ -13,7 +13,7 @@ class ITimer:
     def pause(self):
         self.end_time = time.time()
         self.total_time += self.end_time - self.start_time
-        return self.total_time
+        return self.end_time - self.start_time
     
     def resume(self):
         self.start_time = time.time()
