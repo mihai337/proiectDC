@@ -4,6 +4,7 @@ class ITimer:
     total_time = 0
     start_time = 0
     end_time = 0
+    paused = False
 
     def start(self):
         self.total_time = 0
@@ -11,15 +12,31 @@ class ITimer:
         return self.start_time
     
     def pause(self):
-        self.end_time = time.time()
-        self.total_time += self.end_time - self.start_time
-        return self.end_time - self.start_time
+        if not self.paused:
+            self.end_time = time.time()
+            self.total_time += self.end_time - self.start_time
+            self.paused = True
+            return self.end_time - self.start_time
     
     def resume(self):
-        self.start_time = time.time()
-        return self.start_time
+        if self.paused:
+            self.start_time = time.time()
+            self.paused = False
+            return self.start_time
     
     def stop(self):
-        self.end_time = time.time()
-        self.total_time += self.end_time - self.start_time
+        if not self.paused and self.start_time != 0 :
+            self.end_time = time.time()
+            self.total_time += self.end_time - self.start_time
         return self.total_time
+    
+    def convert_time_unit(self, unit='sec'):
+        if unit == 'sec':
+            return self.total_time
+        elif unit == 'millisec':
+            return self.total_time * 1000
+        elif unit == 'microsec':
+            return self.total_time * 1000000
+        else:
+            raise ValueError("Invalid time unit specified. Please choose 'sec', 'millisec', or 'microsec'.")
+    

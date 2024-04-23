@@ -20,6 +20,7 @@ timer.stop()
 
 logger.write("Total time: ", timer.total_time)
 logger.write("Time: ", t)
+logger.write("Elapsed time (milliseconds):", timer.convert_time_unit('millisec'))
 file_logger.write("Total time: ", timer.total_time)
 file_logger.close()
 
