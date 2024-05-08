@@ -1,26 +1,29 @@
-from logging.ConsoleLogger import ConsoleLogger
-from logging.FileLogger import FileLogger
+from log.ConsoleLogger import ConsoleLogger
+from log.FileLogger import FileLogger
 from timing.ITimer import ITimer
 from time import sleep
+from bench.cpu.CPUDigitsOfPI import CPUDigitsOfPI
 
 logger = ConsoleLogger()
 timer = ITimer()
 file_logger = FileLogger("log.txt")
 
 
-timer.start()
-sleep(1)
-timer.pause()
-sleep(1)
-timer.resume()
-sleep(1)
-t = timer.pause()
-sleep(2)
-timer.stop()
+#cpu testing
+cpu= CPUDigitsOfPI()
+    
+val=[50,100,500,1000,5000,10000,50000,100000]
+result={}
 
-logger.write("Total time: ", timer.total_time)
-logger.write("Time: ", t)
-logger.write("Elapsed time (milliseconds):", timer.convert_time_unit('millisec'))
-file_logger.write("Total time: ", timer.total_time)
+for n in val:
+    timer.start()
+    cpu.start(cpu.monte_carlo, n)
+    result[n]=timer.stop()
+
+cpu.plot(result)
+file_logger.write("Digits\tRuntime (seconds)")
+for n, runtime in result.items():
+    file_logger.write(f"{n}\t{runtime}")
+
 file_logger.close()
 
