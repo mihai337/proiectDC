@@ -3,12 +3,12 @@ import math
 import matplotlib.pyplot as plt
 
 class CPUDigitsOfPI:
-    def __init__(self):
-        pass
+    def __init__(self, numbers):
+        self.numbers = numbers
     
-    def start(self, algorithm, n): 
-        digits=algorithm(n)
-        return digits
+    def start(self): 
+        for n in self.numbers:
+            self.monte_carlo(n)
     
     def monte_carlo(self, n):      
         inside_circle = 0
