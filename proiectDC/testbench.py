@@ -31,10 +31,10 @@ def test_pi():
 
 #cpu testing newton raphson
 def test_newton_raphson():
-    cpu= CPUThreadedRoots([i for i in range(1,1000000)], 8)
+    # cpu= CPUThreadedRoots([i for i in range(1,1000000)], 8)
     if __name__ == '__main__':
-        cpu = CPUMultiPcRoots([i for i in range(1,10000000)], 4)
-        cpu2 = CPUThreadedRoots([i for i in range(1,10000000)], 4)
+        cpu = CPUMultiPcRoots([i for i in range(1,1000000)], 4)
+        cpu2 = CPUThreadedRoots([i for i in range(1,1000000)], 4)
         timer.start()
         cpu.start()
         result=timer.stop()
@@ -44,7 +44,7 @@ def test_newton_raphson():
         result2=timer.stop()
         logger.write(f"Newton Raphson multiprocessed: {result}")
         logger.write(f"Newton Raphson multithreaded: {result2}")
-        file_logger.write(cpu.results)
+        file_logger.write(cpu2.results)
 
 
 if __name__ == '__main__':
