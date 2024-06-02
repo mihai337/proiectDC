@@ -20,7 +20,7 @@ class CPUMultiPcRoots:
 
     def start(self):
         with multiprocessing.Pool(self.nThreads) as p:
-            p.map(self.Newton_Raphson, self.numbers)
+            self.results = p.map(self.Newton_Raphson, self.numbers)
 
         return self.results
     
