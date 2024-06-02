@@ -32,10 +32,12 @@ def test_pi():
         cpu.start()
         result[n]=timer.stop()
 
-    cpu.plot(result)
     file_logger.write("Digits\tRuntime (seconds)")
     for n, runtime in result.items():
         file_logger.write(f"{n}\t{runtime}")
+    file_logger.close()
+    
+    cpu.plot(result)
 
 
 #cpu testing newton raphson
@@ -53,7 +55,8 @@ def test_newton_raphson():
 
         for n, runtime in results.items():
             file_logger.write(f"{n}\t{runtime}")
-            
+        file_logger.close()
+
         plot(results)
 
 
@@ -72,5 +75,9 @@ if __name__ == '__main__':
                 logger.write("Invalid choice")
     else:
         logger.write("Invalid choice")
-    file_logger.close()
+
+    try:
+        file_logger.close()
+    except Exception as e:
+        print(e)
 
