@@ -5,11 +5,20 @@ from time import sleep
 from bench.cpu.CPUDigitsOfPI import CPUDigitsOfPI
 from bench.cpu.CPUThreadedRoots import CPUThreadedRoots
 from bench.cpu.CPUMultiPcRoots import CPUMultiPcRoots
+import matplotlib.pyplot as plt
 
 logger = ConsoleLogger()
 timer = ITimer()
 file_logger = FileLogger("log.txt")
 
+
+def plot(result):
+    plt.plot(result.keys(), result.values(), marker='o')
+    plt.xlabel('Number of Threads')
+    plt.ylabel('Runtime (seconds)')
+    plt.title('Newton Raphson Calculation Runtime')
+    plt.grid(True)
+    plt.show()
 
 #cpu testing digits of pi
 def test_pi():
@@ -31,20 +40,21 @@ def test_pi():
 
 #cpu testing newton raphson
 def test_newton_raphson():
-    # cpu= CPUThreadedRoots([i for i in range(1,1000000)], 8)
     if __name__ == '__main__':
-        cpu = CPUMultiPcRoots([i for i in range(1,1000000)], 4)
-        cpu2 = CPUThreadedRoots([i for i in range(1,1000000)], 4)
-        timer.start()
-        cpu.start()
-        result=timer.stop()
+        no_threads = [1,2,4,8,16]
+        results = {}
+        for n in no_threads:
+            # cpu = CPUThreadedRoots([i for i in range(1,1000000)], n)  this is with threads, but doesn't work as expected because of the GIL
+            cpu = CPUMultiPcRoots([i for i in range(1,1000000)], n)
+            timer.start()
+            cpu.start()
+            result=timer.stop()
+            results[n] = result
 
-        timer.start()
-        cpu2.start()
-        result2=timer.stop()
-        logger.write(f"Newton Raphson multiprocessed: {result}")
-        logger.write(f"Newton Raphson multithreaded: {result2}")
-        file_logger.write(cpu2.results)
+        for n, runtime in results.items():
+            file_logger.write(f"{n}\t{runtime}")
+            
+        plot(results)
 
 
 if __name__ == '__main__':
